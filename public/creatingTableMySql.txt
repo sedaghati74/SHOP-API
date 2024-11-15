@@ -1,0 +1,5 @@
+Use below command in MySql console to create our target tables :
+
+CREATE TABLE products(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(50),price INT,category_id INT,subset_id INT);
+CREATE TABLE categories(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(50),category_id INT);
+CREATE TABLE subsets(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(50),subset_id INT,category_id INT);
