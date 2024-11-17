@@ -76,7 +76,7 @@ You should send a request to ./categories/currentNameOfCategory by put method to
 In fetching way, You should fetch like below example :
 ``body: name(string)``
 ```sh
-fetch("http//localhost:3000/categories") , {
+fetch("http//localhost:3000/categories/currentNameOfCategory") , {
   method: 'PUT',
   body: {name: 'new category name}
 }
