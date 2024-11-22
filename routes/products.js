@@ -11,16 +11,28 @@ const DB = mysql.createConnection({
 
 DB.connect((err) => {
     if (!err) {
-        console.log('Connected to database');
+        console.log('Products Connected to Database Successfully.');
     } else {
-        console.log('Connecting to database Failed');
+        console.log('Connecting Products to Database Failed.');
     }
 })
 
+const staticCwdPath = process.cwd()+'/routes/products.js'
 
 router.get('/', function(req, res, next) {
+    console.log('Loading Data from Products...')
     DB.query('SELECT * FROM products;',(err,data,fields)=>{
-        res.json(data);
+        if(data[0]===undefined)
+        {
+            const errMsg = 'No Data Found from Products.\n' + `Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`
+            res.send(errMsg);
+            console.log(errMsg)
+        }
+        else{
+            res.json(data);
+            console.log('Loading Data from Products was SUCCESS.\n'
+                + `type: ${typeof(data)}`);
+        }
     })
 });
 router.get('/search=:id', function(req, res, next) {
