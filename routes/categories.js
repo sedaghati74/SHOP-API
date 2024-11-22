@@ -11,17 +11,28 @@ const DB = mysql.createConnection({
 
 DB.connect((err) => {
     if (!err) {
-        console.log('Connected to database');
+        console.log('Categories Connected to Database Successfully.');
     } else {
-        console.log('Connecting to database Failed');
+        console.log('Connecting Categories to Database Failed.');
     }
 })
 
+const staticCwdPath = process.cwd()+'/routes/categories.js'
 
 router.get('/', function(req, res, next) {
+    console.log('Loading Data from Categories...')
     DB.query('SELECT * FROM categories;',(err,data,fields)=>{
-        console.log('Loading Data from Categories was SUCCESS.');
-        res.json(data);
+        if(data[0]===undefined)
+        {
+            const errMsg = 'No Data Found from Categories.\n' + `Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`
+            res.send(errMsg);
+            console.log(errMsg)
+        }
+        else{
+            res.json(data);
+            console.log('Loading Data from Categories was SUCCESS.\n'
+                + `type: ${typeof(data)}`);
+        }
     })
 });
 
