@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const mysql = require('mysql2');
+const validateProductData = require('../public/javascripts/validateProductData.js');
+const ValidateProductData = new validateProductData();
 
 const DB = mysql.createConnection({
     host: 'localhost',
@@ -49,9 +51,16 @@ router.get('/search=:id', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     const {name, price, category_id, subset_id} = req.body;
-    DB.query("INSERT INTO products (name,price,category_id,subset_id) VALUES (?,?,?,?); ", [name, price, category_id, subset_id], (err, data, fields) => {
-        res.json({message: "SUCCESS"});
-    })
+    const checkedName = ValidateProductData.ValidateName(name);
+    console.log(checkedName);
+    if(checkedName === false){
+        console.log('Invalid name formation. Check up the name value');
+    }
+    else {
+        DB.query("INSERT INTO products (name,price,category_id,subset_id) VALUES (?,?,?,?); ", [checkedName, price, category_id, subset_id], (err, data, fields) => {
+            res.json({message: "SUCCESS"});
+        })
+    }
 });
 
 router.delete('/', function (req, res, next) {
