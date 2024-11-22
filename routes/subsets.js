@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mysql = require('mysql2');
+const {static} = require("express");
 
 const DB = mysql.createConnection({
     host: 'localhost',
@@ -8,6 +9,8 @@ const DB = mysql.createConnection({
     password: '12345678',
     database: 'fake_shop'
 })
+
+const staticCwdPath = process.cwd()+'/routes/subsets.js'
 
 DB.connect((err) => {
     if (!err) {
@@ -19,9 +22,17 @@ DB.connect((err) => {
 
 
 router.get('/', function(req, res, next) {
-    DB.query('SELECT * FROM subsets;',(err,data,fields)=>{
-        console.log('Loading Data from Categories was SUCCESS.');
+    DB.query('SELECT * FROM subsets WHERE name="stoary";',(err,data,fields)=>{
+        console.log('Loading Data from Categories was SUCCESS.\n'
+            + `type: ${typeof(data)} \n`);
+        if(data[0]===undefined)
+        {
+            res.send('No Data Found from Categories. \n'
+            +`Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`);
+        }
+        else{
         res.json(data);
+        }
     })
 });
 
