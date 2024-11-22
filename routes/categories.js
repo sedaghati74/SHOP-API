@@ -5,8 +5,8 @@ const mysql = require('mysql2');
 const DB = mysql.createConnection({
     host: 'localhost',
     user: 'root', //Use your own username, I'm using root, the default one.
-    password: 'your-db-password',
-    database: 'your-db-name'
+    password: '12345678',
+    database: 'fake_shop'
 })
 
 DB.connect((err) => {
@@ -40,5 +40,13 @@ router.put('/:id', function(req, res, next) {
         res.json({message:"SUCCESS"});
     })
 });
+
+router.delete('/', function(req,res,next) {
+    const {name} = req.body;
+    console.log(`Deleting ${name}`);
+    DB.query("DELETE FROM categories WHERE name = ?" , [name],(err,data,fields)=>{
+        res.json({message:"SUCCESS"});
+    })
+})
 
 module.exports = router;
