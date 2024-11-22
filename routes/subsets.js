@@ -32,4 +32,12 @@ router.post('/', function(req, res, next) {
     })
 });
 
+router.delete('/', function(req,res,next) {
+    const {name} = req.body;
+    console.log(`Deleting ${name}`);
+    DB.query("DELETE FROM subsets WHERE name = ?" , [name],(err,data,fields)=>{
+        res.json({message:"SUCCESS"});
+    })
+})
+
 module.exports = router;
