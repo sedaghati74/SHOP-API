@@ -14,21 +14,22 @@ const staticCwdPath = process.cwd()+'/routes/subsets.js'
 
 DB.connect((err) => {
     if (!err) {
-        console.log('Connected to database');
+        console.log('Subsets Connected to Database Successfully.');
     } else {
-        console.log('Connecting to database Failed');
+        console.log('Connecting Subsets to Database Failed.');
     }
 })
 
 
 router.get('/', function(req, res, next) {
-    DB.query('SELECT * FROM subsets WHERE name="stoary";',(err,data,fields)=>{
+    DB.query('SELECT * FROM subsets;',(err,data,fields)=>{
         console.log('Loading Data from Categories was SUCCESS.\n'
-            + `type: ${typeof(data)} \n`);
+            + `type: ${typeof(data)}`);
         if(data[0]===undefined)
         {
-            res.send('No Data Found from Categories. \n'
-            +`Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`);
+            const errMsg = 'No Data Found from Categories.\n' + `Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`
+            res.send(errMsg);
+            console.log(errMsg)
         }
         else{
         res.json(data);
