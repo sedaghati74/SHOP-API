@@ -22,6 +22,7 @@ const staticCwdPath = process.cwd()+'/routes/products.js'
 router.get('/', function(req, res, next) {
     console.log('Loading Data from Products...')
     DB.query('SELECT * FROM products;',(err,data,fields)=>{
+        if(!err){
         if(data[0]===undefined)
         {
             const errMsg = 'No Data Found from Products.\n' + `Having issue in loading data. Check DataBase or get method request in ${staticCwdPath}`
@@ -32,6 +33,10 @@ router.get('/', function(req, res, next) {
             res.json(data);
             console.log('Loading Data from Products was SUCCESS.\n'
                 + `type: ${typeof(data)}`);
+        }
+        }
+        else{
+            throw err
         }
     })
 });
