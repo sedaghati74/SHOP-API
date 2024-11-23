@@ -52,13 +52,14 @@ router.get('/search=:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
     const {name, price, category_id, subset_id} = req.body;
     const checkedName = ValidateProductData.ValidateName(name);
-    console.log(checkedName);
-    if(checkedName === false){
-        console.log('Invalid name formation. Check up the name value');
+    res.status(checkedName.status)
+    if(checkedName.response === false){
+        console.log(checkedName.message);
+        res.json({message:checkedName.message});
     }
     else {
         DB.query("INSERT INTO products (name,price,category_id,subset_id) VALUES (?,?,?,?); ", [checkedName, price, category_id, subset_id], (err, data, fields) => {
-            res.json({message: "SUCCESS"});
+            res.json({message:checkedName.message});
         })
     }
 });
