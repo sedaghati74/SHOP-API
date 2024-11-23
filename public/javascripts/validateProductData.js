@@ -7,8 +7,11 @@ const validateProductData = function validateData() {
     this.falseValidateResult = null
 }
 
-validateProductData.prototype.ValidateName = (name,price,category_id,subset_id) => {
+validateProductData.prototype.ValidateName = (name,price,category_id,subset_id) => { // complete validation by price,category_id & subset_id
     this.name = name;
+    this.price = price;
+    this.category_id = category_id;
+    this.subset_id = subset_id;
     if (this.name === null || this.name === undefined || this.name.length > 50 || this.name === "") {
         if(this.name === null || this.name === "")
         {
